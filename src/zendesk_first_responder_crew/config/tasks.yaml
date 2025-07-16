@@ -12,3 +12,76 @@ summarize_problem_task:
     }
   expected_output: >
     A valid JSON object matching the specified format.
+
+web_search_task:
+  description: >
+    Using the summarized description from the problem_summarizer_agent, do the following:
+    Use the SerperDev web search tool and the WebsiteSearchTool to find the most relevant and up-to-date solutions, implementation guides, and official documentation to resolve this issue.
+
+    For each solution or recommendation you find:
+      - Summarize the approach in 1-2 sentences.
+      - Provide a **step-by-step implementation guide** or clear, actionable recommendations, formatted as a numbered or bulleted list.
+      - Include a clickable markdown link to the original source or documentation.
+      - Prioritize official docs, AWS documentation, reputable tech blogs, and Stack Overflow answers.
+      - Avoid duplicates and unclear/unverified sources.
+    If multiple valid solutions exist, present each one in a clearly labeled, separate section with its own heading.
+
+  expected_output: >
+    A well-structured, markdown-formatted response containing up to 3 distinct solutions or guides. For each:
+      - A descriptive title or heading
+      - A 1-2 sentence summary
+      - A step-by-step implementation guide (numbered or bulleted list)
+      - A clickable link to the source
+
+    Example:
+
+    ### Solution 1: Troubleshooting EC2 Boot Failures ([AWS Docs](https://docs.aws.amazon.com/some-url))
+    Official AWS troubleshooting guide for EC2 boot issues.
+
+    **Steps:**
+    1. Review the EC2 instance's system logs for error messages.
+    2. Use the AWS CLI to retrieve console output.
+    3. Follow AWS troubleshooting steps as outlined in the documentation.
+
+draft_response_task:
+  description: >
+    Carefully review and verify the recommended solutions, best 
+    practices, and implementation steps provided by the web search analyst
+    Synthesize a clear, actionable, and concise internal note for the Zendesk support engineer. 
+    Your note should:
+
+    - Start with a brief summary of the reported issue (paraphrase if needed for clarity).
+    - Present the most effective solutions and recommendations, organized logically.
+    - Include step-by-step instructions in markdown format (numbered or bulleted lists as appropriate).
+    - Clearly reference and link to relevant documentation or sources.
+    - Highlight any important caveats, prerequisites, or best practices.
+    - Ensure all content is accurate and unambiguous.
+    - End with a note for the engineer to follow up with the customer as needed.
+
+  expected_output: >
+    A polished, markdown-formatted internal note suitable for Zendesk. 
+    It should include:
+      - A clear problem summary
+      - Well-organized, step-by-step solutions
+      - Markdown links to all sources and documentation
+      - Any warnings, tips, or important context
+      - A concluding line suggesting engineer follow-up with the customer
+
+    Example:
+
+    ---
+    **Issue Summary:**  
+    Customer cannot connect to their EC2 instance after reboot.
+
+    **Recommended Steps:**
+
+    1. Check the EC2 instance’s system logs for errors. ([AWS Docs](https://docs.aws.amazon.com/some-url))
+    2. Use the AWS CLI to retrieve the instance’s console output.
+    3. Review security group and network ACL settings. ([AWS Security Docs](https://docs.aws.amazon.com/some-url))
+    4. Validate SSH key and instance health status.
+
+    *Note: Always verify access permissions and consult AWS incident response guidelines before making changes.*
+
+    ---
+    _Please review and follow up with the customer after performing these steps._
+
