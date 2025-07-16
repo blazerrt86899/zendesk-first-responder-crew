@@ -1,0 +1,23 @@
+[project]
+name = "zendesk_first_responder_crew"
+version = "0.1.0"
+description = "zendesk_first_responder_crew using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]>=0.121.1,<1.0.0"
+]
+
+[project.scripts]
+zendesk_first_responder_crew = "zendesk_first_responder_crew.main:run"
+run_crew = "zendesk_first_responder_crew.main:run"
+train = "zendesk_first_responder_crew.main:train"
+replay = "zendesk_first_responder_crew.main:replay"
+test = "zendesk_first_responder_crew.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"

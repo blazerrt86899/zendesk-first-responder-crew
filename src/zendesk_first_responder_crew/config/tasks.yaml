@@ -1,0 +1,14 @@
+summarize_problem_task:
+  description: >
+    Review the ticket description from the input provided: {description}  
+    Summarize the main technical problem or question in 5-10 
+    concise sentences to help other agents search for solutions.
+    Analyse and identify the list of AWS services referenced in the ticket.
+    Respond in this JSON format:
+    {
+      "ticket_id": "<ticket_id>",
+      "summarized_description": "<summary>",
+      "aws_services": ["<service1>", "<service2>"]
+    }
+  expected_output: >
+    A valid JSON object matching the specified format.
