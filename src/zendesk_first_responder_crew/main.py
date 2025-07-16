@@ -11,10 +11,20 @@ def run():
     """
     Run the crew.
     """
+    
+    ticket_description = """
+    "A customer reported that although both VPC-CNI and Calico network 
+    plugins were previously installed in their Amazon EKS clusters, 
+    the VPC-CNI is currently not being utilized. They are requesting 
+    support to migrate the cluster to use VPC-CNI as the primary CNI 
+    plugin. The customer is seeking detailed guidance or step-by-step 
+    instructions for performing this migration safely and efficiently."
+    """
+    
     inputs = {
-        "ticket_id": 11,
-        "subject": "Consolidating three redis cache cluster into single redis cache cluster",
-        "description": "Hi Team, I have three redis cache cluster where i want to merge all together into one new redis cache cluster, can you please help out recommended best approach to do this"
+        "ticket_id": "11",
+        "subject": "Migration of EKS Cluster Networking to VPC-CNI",
+        "description": ticket_description
     }
     
     try:
@@ -27,10 +37,32 @@ def train():
     """
     Train the crew for a given number of iterations.
     """
+    
+    ticket_description = """
+    Hi @Lokhande, Abhijeet 
+
+Hope you're doing well.
+
+We had earlier installed both network plugins (VPC-CNI and Calico) in your EKS clusters. However, we’ve observed that VPC-CNI is currently not being utilized. We would appreciate your support in migrating the cluster to use VPC-CNI as the primary CNI.
+
+Looking forward to your guidance.
+
+ 
+
+Thanks
+
+Chirrag Sapra
+
+Senior DevOps Engineer
+    """
+    
+    
     inputs = {
-        "topic": "AI LLMs",
-        'current_year': str(datetime.now().year)
+        "ticket_id": "11",
+        "subject": "[EXTERNAL] Support Required for Migrating to VPC-CNI on EKS",
+        "description": ticket_description
     }
+    
     try:
         ZendeskFirstResponderCrew().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
 
@@ -51,9 +83,58 @@ def test():
     """
     Test the crew execution and returns the results.
     """
+    ticket_description = """
+    Can you please help us in creating WAF rules or suggesting remediations for the below given alerts ?
+    
+    Hi Team,
+
+Please find the details of the following security alert that our SOC detected:
+
+This alert was triggered when SIEM detected a potential PHP File Inclusion attack attempt.
+
+Security Alerts Details:
+
+Start Time: March 28, 2025, 11:32 PM (IST)
+Source IP Address: 165.22.215.131
+Host: 43.205.154.2
+URI: /hello.world
+HTTP Method: POST
+Action: Allow
+Source IP Analysis:
+
+165.22.215.131
+
+ISP: DigitalOcean, LLC
+Country: India
+IP Reputation: Poor
+ 
+
+SOC Analyst Triage Comments:
+
+SIEM detected a suspicious post request from the source IP address 165.22.215.131, which contains the following arguments:
+"allow_url_include=1": Enables remote file inclusion, allowing external scripts to be executed via URL.
+"auto_prepend_file=php://input": Forces PHP to execute code from the raw POST body, enabling code injection.
+Furthermore, the post request was allowed by the Web Application Firewall "Truthscreen-Prod".
+Additionally, the user-agent in the post request was "Custom-AsyncHttpClient", which is not a typical browser and might indicate the use of an automated script or scanning tool.
+On analyzing the logs, we have seen multiple Get requests for suspicious URI from the above-mentioned source IP address to the same host in the past 3 hours, and all of those requests were allowed by the web application firewall. For more information, refer to the box link mentioned below:
+Box-Link: https://app.box.com/s/bqetmdquwwmtryp14ht0cdcv3qai34ev
+ 
+
+Verification Required:
+
+Could you please verify this activity and let us know if it is legitimate or not?
+If not legitimate, then please follow the below-mentioned recommended next steps:
+Recommended Next Steps:
+
+Block or rate-limit the above-mentioned source IP address if it's not a recognized or legitimate user.
+Update WAF rules to block suspicious parameters like allow_url_include and php://input.
+Disable risky PHP directives (allow_url_include, auto_prepend_file) and apply open_basedir restrictions in production.
+    """
+    
     inputs = {
-        "topic": "AI LLMs",
-        "current_year": str(datetime.now().year)
+        "ticket_id": "11",
+        "subject": "Consolidating three redis cache cluster into single redis cache cluster",
+        "description": ticket_description
     }
     
     try:
