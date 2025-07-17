@@ -12,17 +12,15 @@ def run():
     """
     
     ticket_description = """
-    "A customer reported that although both VPC-CNI and Calico network 
-    plugins were previously installed in their Amazon EKS clusters, 
-    the VPC-CNI is currently not being utilized. They are requesting 
-    support to migrate the cluster to use VPC-CNI as the primary CNI 
-    plugin. The customer is seeking detailed guidance or step-by-step 
-    instructions for performing this migration safely and efficiently."
+    Hi Team ,
+
+    We are currently working on a DB  Disk space reclaim activity as part of our effort to optimize storage usage and reduce ongoing costs. We ran the Sync process and we found the sync job failed due to some issues. To proceed effectively, we require assistance from your technical team.
+
     """
     
     inputs = {
         "ticket_id": "11",
-        "subject": "Migration of EKS Cluster Networking to VPC-CNI",
+        "subject": "Request for Assistance with DB Disk Space Reclaim Activity ( DB: Mongo DB)",
         "description": ticket_description
     }
     
