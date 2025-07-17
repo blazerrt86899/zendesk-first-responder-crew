@@ -2,7 +2,6 @@
 import sys
 import warnings
 
-from datetime import datetime
 from .crew import ZendeskFirstResponderCrew
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
@@ -11,10 +10,18 @@ def run():
     """
     Run the crew.
     """
+    
+    ticket_description = """
+    Hi Team ,
+
+    We are currently working on a DB  Disk space reclaim activity as part of our effort to optimize storage usage and reduce ongoing costs. We ran the Sync process and we found the sync job failed due to some issues. To proceed effectively, we require assistance from your technical team.
+
+    """
+    
     inputs = {
-        "ticket_id": 11,
-        "subject": "Consolidating three redis cache cluster into single redis cache cluster",
-        "description": "Hi Team, I have three redis cache cluster where i want to merge all together into one new redis cache cluster, can you please help out recommended best approach to do this"
+        "ticket_id": "11",
+        "subject": "Request for Assistance with DB Disk Space Reclaim Activity ( DB: Mongo DB)",
+        "description": ticket_description
     }
     
     try:
@@ -27,10 +34,32 @@ def train():
     """
     Train the crew for a given number of iterations.
     """
+    
+    ticket_description = """
+    Hi @Lokhande, Abhijeet 
+
+Hope you're doing well.
+
+We had earlier installed both network plugins (VPC-CNI and Calico) in your EKS clusters. However, we’ve observed that VPC-CNI is currently not being utilized. We would appreciate your support in migrating the cluster to use VPC-CNI as the primary CNI.
+
+Looking forward to your guidance.
+
+ 
+
+Thanks
+
+Chirrag Sapra
+
+Senior DevOps Engineer
+    """
+    
+    
     inputs = {
-        "topic": "AI LLMs",
-        'current_year': str(datetime.now().year)
+        "ticket_id": "11",
+        "subject": "[EXTERNAL] Support Required for Migrating to VPC-CNI on EKS",
+        "description": ticket_description
     }
+    
     try:
         ZendeskFirstResponderCrew().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
 
@@ -51,9 +80,20 @@ def test():
     """
     Test the crew execution and returns the results.
     """
+    ticket_description = """
+    Hi @Lokhande, Abhijeet 
+
+Hope you're doing well.
+
+We had earlier installed both network plugins (VPC-CNI and Calico) in your EKS clusters. However, we’ve observed that VPC-CNI is currently not being utilized. We would appreciate your support in migrating the cluster to use VPC-CNI as the primary CNI.
+
+Looking forward to your guidance.
+    """
+    
     inputs = {
-        "topic": "AI LLMs",
-        "current_year": str(datetime.now().year)
+        "ticket_id": "11",
+        "subject": "[EXTERNAL] Support Required for Migrating to VPC-CNI on EKS",
+        "description": ticket_description
     }
     
     try:

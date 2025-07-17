@@ -84,10 +84,10 @@ class ZendeskFirstResponderCrew():
         """Creates the ZendeskFirstResponderCrew crew"""
        
         return Crew(
-            agents=self.agents, # Automatically created by the @agent decorator
-            tasks=self.tasks, # Automatically created by the @task decorator
+            agents=self.agents, 
+            tasks=self.tasks, 
             process=Process.sequential,
             verbose=True,
             memory=True
-            # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
+            # process=Process.hierarchical
         )

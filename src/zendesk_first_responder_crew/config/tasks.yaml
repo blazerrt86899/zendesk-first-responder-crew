@@ -1,13 +1,13 @@
 summarize_problem_task:
   description: >
-    Review the ticket description from the input provided: {description}  
-    Summarize the main technical problem or question in 5-10 
+    Review the input json from the input provided and extract the relevant fields: {ticket_id} {subject} {description} .\n
+    Utilize the Subject and Description to summarize the main technical problem or question in 5-10 
     concise sentences to help other agents search for solutions.
     Analyse and identify the list of AWS services referenced in the ticket.
     Respond in this JSON format:
     {
-      "ticket_id": "<ticket_id>",
-      "summarized_description": "<summary>",
+      "ticket_id": "<Extracted ticket_id>",
+      "summarized_description": "<Preprocessed description>",
       "aws_services": ["<service1>", "<service2>"]
     }
   expected_output: >
@@ -15,73 +15,87 @@ summarize_problem_task:
 
 web_search_task:
   description: >
-    Using the summarized description from the problem_summarizer_agent, do the following:
-    Use the SerperDev web search tool and the WebsiteSearchTool to find the most relevant and up-to-date solutions, implementation guides, and official documentation to resolve this issue.
-
-    For each solution or recommendation you find:
-      - Summarize the approach in 1-2 sentences.
-      - Provide a **step-by-step implementation guide** or clear, actionable recommendations, formatted as a numbered or bulleted list.
+    Use the summarized description from the problem_summarizer_agent.
+    Use both the SerperDev web search tool and the WebsiteSearchTool to find 
+    the most relevant, authoritative, and up-to-date solutions, implementation 
+    guides, and official documentation to resolve this issue.
+    
+    For each unique solution or recommendation you find:
+      - Summarize the approach in 2-3 sentences.
+      - Provide a **step-by-step implementation guide** or actionable recommendations, using a numbered or bulleted list. Include code examples or detailed instructions for AWS Console and AWS CLI where available.
+      - Clearly state any prerequisites, caveats, or best practices related to the solution.
       - Include a clickable markdown link to the original source or documentation.
-      - Prioritize official docs, AWS documentation, reputable tech blogs, and Stack Overflow answers.
-      - Avoid duplicates and unclear/unverified sources.
-    If multiple valid solutions exist, present each one in a clearly labeled, separate section with its own heading.
+      - Prioritize official AWS documentation, reputable tech blogs, and top-voted Stack Overflow answers.
+      - Avoid duplicate or near-duplicate solutions. Ignore unclear or unverified sources.
+      - Present a maximum of 3 distinct solutions, each in a clearly labeled section with its own heading.
 
   expected_output: >
-    A well-structured, markdown-formatted response containing up to 3 distinct solutions or guides. For each:
+    A clear, markdown-formatted response containing up to 3 distinct solutions or guides. For each:
       - A descriptive title or heading
-      - A 1-2 sentence summary
-      - A step-by-step implementation guide (numbered or bulleted list)
-      - A clickable link to the source
+      - A 2-3 sentence summary of the approach
+      - A **step-by-step implementation guide** with code samples or detailed instructions for AWS Console or CLI, as available
+      - Explicit mention of prerequisites or caveats (if any)
+      - A clickable link to the original source or documentation
 
     Example:
+
+    ### Solution 1: 
+    Troubleshooting EC2 Boot Failures ([AWS Docs](https://docs.aws.amazon.com/some-url))
+    Official AWS troubleshooting guide for EC2 boot issues.
+
+    **Steps:**
+    1. Review the EC2 instance's system logs for error messages.
+    2. Use the AWS CLI to retrieve console output:
+       ```sh
+       aws ec2 get-console-output --instance-id <your-instance-id>
+       ```
+    3. Follow AWS troubleshooting steps as outlined in the documentation.
+
+    Prerequisites: Ensure you have appropriate IAM permissions to access EC2 logs.
+
+draft_response_task:
+  description: >
+    Review and verify the recommended solutions, best practices, and implementation steps provided by the web_search_analyst_agent.
+    Synthesize a clear, actionable, and concise internal note for the Zendesk support engineer. Your note should:
+
+    - Begin with a brief, paraphrased summary of the reported issue for clarity.
+    - Present the most effective solutions and recommendations, each in a separate clearly-labeled section.
+    - For the solution, include a step-by-step implementation guide in markdown (numbered or bulleted list), including any relevant code snippets or AWS Console/CLI instructions.
+    - For each step, clearly reference and link to the original documentation or source.
+    - Explicitly highlight any important caveats, prerequisites, or best practices for each solution.
+    - Use precise, unambiguous, and professional language throughout.
+    - End with a checklist or reminder for the engineer to follow up with the customer as needed.
+
+  expected_output: >
+    A polished, markdown-formatted internal note suitable for Zendesk. It must include:
+      - A clear and concise problem summary at the top
+      - Well-organized solutions, each with:
+        - A heading
+        - A 2-3 sentence summary
+        - Step-by-step instructions (with code/CLI/Console details as appropriate)
+        - A clearly formatted markdown link to the source for each step or section
+        - Highlighted prerequisites, caveats, or important context
+      - A final section reminding the engineer to review and follow up with the customer
+
+    Example:
+
+    **Issue Summary:**  
+    Customer cannot connect to their EC2 instance after reboot.
 
     ### Solution 1: Troubleshooting EC2 Boot Failures ([AWS Docs](https://docs.aws.amazon.com/some-url))
     Official AWS troubleshooting guide for EC2 boot issues.
 
     **Steps:**
-    1. Review the EC2 instance's system logs for error messages.
-    2. Use the AWS CLI to retrieve console output.
-    3. Follow AWS troubleshooting steps as outlined in the documentation.
+    1. Review the EC2 instance's system logs for error messages.  
+       [AWS Docs](https://docs.aws.amazon.com/some-url)
+    2. Use the AWS CLI to retrieve console output:  
+       ```sh
+       aws ec2 get-console-output --instance-id <your-instance-id>
+       ```
+    3. Follow AWS troubleshooting steps as outlined in the documentation.  
+       [AWS Docs](https://docs.aws.amazon.com/some-url)
 
-draft_response_task:
-  description: >
-    Carefully review and verify the recommended solutions, best 
-    practices, and implementation steps provided by the web search analyst
-    Synthesize a clear, actionable, and concise internal note for the Zendesk support engineer. 
-    Your note should:
-
-    - Start with a brief summary of the reported issue (paraphrase if needed for clarity).
-    - Present the most effective solutions and recommendations, organized logically.
-    - Include step-by-step instructions in markdown format (numbered or bulleted lists as appropriate).
-    - Clearly reference and link to relevant documentation or sources.
-    - Highlight any important caveats, prerequisites, or best practices.
-    - Ensure all content is accurate and unambiguous.
-    - End with a note for the engineer to follow up with the customer as needed.
-
-  expected_output: >
-    A polished, markdown-formatted internal note suitable for Zendesk. 
-    It should include:
-      - A clear problem summary
-      - Well-organized, step-by-step solutions
-      - Markdown links to all sources and documentation
-      - Any warnings, tips, or important context
-      - A concluding line suggesting engineer follow-up with the customer
-
-    Example:
-
-    ---
-    **Issue Summary:**  
-    Customer cannot connect to their EC2 instance after reboot.
-
-    **Recommended Steps:**
-
-    1. Check the EC2 instance’s system logs for errors. ([AWS Docs](https://docs.aws.amazon.com/some-url))
-    2. Use the AWS CLI to retrieve the instance’s console output.
-    3. Review security group and network ACL settings. ([AWS Security Docs](https://docs.aws.amazon.com/some-url))
-    4. Validate SSH key and instance health status.
-
-    *Note: Always verify access permissions and consult AWS incident response guidelines before making changes.*
-
-    ---
-    _Please review and follow up with the customer after performing these steps._
+    *Prerequisites:* Ensure you have appropriate IAM permissions to access EC2 logs.---
+    
+    Please review these solutions, implement the most appropriate steps, and follow up with the customer to confirm resolution.
 
