@@ -2,7 +2,6 @@
 import sys
 import warnings
 
-from datetime import datetime
 from .crew import ZendeskFirstResponderCrew
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
