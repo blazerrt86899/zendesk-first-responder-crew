@@ -16,7 +16,10 @@ summarize_problem_task:
 web_search_task:
   description: >
     Use the summarized description from the problem_summarizer_agent.
-    Use both the SerperDev web search tool and the WebsiteSearchTool to find the most relevant, authoritative, and up-to-date solutions, implementation guides, and official documentation to resolve this issue.
+    Use both the SerperDev web search tool and the WebsiteSearchTool to find 
+    the most relevant, authoritative, and up-to-date solutions, implementation 
+    guides, and official documentation to resolve this issue.
+    
     For each unique solution or recommendation you find:
       - Summarize the approach in 2-3 sentences.
       - Provide a **step-by-step implementation guide** or actionable recommendations, using a numbered or bulleted list. Include code examples or detailed instructions for AWS Console and AWS CLI where available.
