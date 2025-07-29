@@ -12,7 +12,7 @@ def run():
     Run the crew.
     """
     inputs = {
-        "ticket_id": 11,
+        "ticket_id": "11",
         "subject": "Consolidating three redis cache cluster into single redis cache cluster",
         "description": "Hi Team, I have three redis cache cluster where i want to merge all together into one new redis cache cluster, can you please help out recommended best approach to do this"
     }
@@ -28,8 +28,9 @@ def train():
     Train the crew for a given number of iterations.
     """
     inputs = {
-        "topic": "AI LLMs",
-        'current_year': str(datetime.now().year)
+        "ticket_id": "11",
+        "subject": "Consolidating three redis cache cluster into single redis cache cluster",
+        "description": "Hi Team, I have three redis cache cluster where i want to merge all together into one new redis cache cluster, can you please help out recommended best approach to do this"
     }
     try:
         ZendeskFirstResponderCrew().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
@@ -52,8 +53,9 @@ def test():
     Test the crew execution and returns the results.
     """
     inputs = {
-        "topic": "AI LLMs",
-        "current_year": str(datetime.now().year)
+        "ticket_id": "11",
+        "subject": "Consolidating three redis cache cluster into single redis cache cluster",
+        "description": "Hi Team, I have three redis cache cluster where i want to merge all together into one new redis cache cluster, can you please help out recommended best approach to do this"
     }
     
     try:
