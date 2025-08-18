@@ -2,7 +2,7 @@
 name = "zendesk_first_responder_crew"
 version = "0.1.0"
 description = "zendesk_first_responder_crew using crewAI"
-authors = [{ name = "Your Name", email = "you@example.com" }]
+authors = [{ name = "Romu Tiwari", email = "tromu98@gmail.com" }]
 requires-python = ">=3.10,<3.13"
 dependencies = [
     "crewai[tools]>=0.121.1,<1.0.0"
